@@ -11,11 +11,11 @@ import { UserSettings } from '../data/user-settings';
 export class UserSettingsFormComponent implements OnInit {
 
   originalUserSettings: UserSettings = {
-    name: 'Cheresh',
-    emailOffers: true,
-    interfaceStyle: 'dark',
-    subscriptionType: 'Annual',
-    notes: 'some notes for you...'
+    name: null,
+    emailOffers: null,
+    interfaceStyle: null,
+    subscriptionType: null,
+    notes: null
   };
 
   userSettings: UserSettings = { ...this.originalUserSettings };
@@ -27,14 +27,13 @@ export class UserSettingsFormComponent implements OnInit {
 
   onBlur(field: NgModel) {
     console.log('in onBlur: ', field.valid);
+  }
+
+  onSubmit(form: NgForm) {
+    console.log('in onSubmit: ', form.valid);
     this.dataService.postUserSettingsForm(this.userSettings).subscribe(
       result => console.log('sucess: ', result),
       error => console.log('error: ', error)
     );
   }
-
-  onSubmit(form: NgForm) {
-    console.log('in onSubmit: ', form.valid);
-  }
-
 }
