@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
 import { DataService } from '../data/data.service';
@@ -19,6 +20,8 @@ export class UserSettingsFormComponent implements OnInit {
   };
 
   userSettings: UserSettings = { ...this.originalUserSettings };
+  postError = false;
+  postErrorMessage = '';
 
   constructor(private dataService: DataService) { }
 
@@ -31,9 +34,22 @@ export class UserSettingsFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log('in onSubmit: ', form.valid);
-    this.dataService.postUserSettingsForm(this.userSettings).subscribe(
-      result => console.log('sucess: ', result),
-      error => console.log('error: ', error)
-    );
+    if (form.valid) {
+      this.dataService.postUserSettingsForm(this.userSettings).subscribe(
+        result => console.log('sucess: ', result),
+        error => this.onHttpError(error)
+      );
+    }
+    else {
+      this.postError = true;
+      this.postErrorMessage = 'Please fix the errors on the page';
+    }
+
+  }
+
+  onHttpError(errorResponse: any) {
+    console.log('error :', errorResponse);
+    this.postError = true;
+    this.postErrorMessage = errorResponse.error.errorMessage;
   }
 }
