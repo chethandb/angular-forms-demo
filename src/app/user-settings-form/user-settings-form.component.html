@@ -36,6 +36,15 @@
         </div>
 
         <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="text" placeholder="Start Date" class="form-control" [(ngModel)]="startDate" name="startDate"
+                id="startDate" bsDatepicker>
+            <div>
+                Selected Start Date: {{ startDate }}
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="subscriptionType">Subcription Type</label>
             <select class="form-control" id="subscriptionType" name="subscriptionType"
                 [(ngModel)]="userSettings.subscriptionType">
@@ -50,6 +59,15 @@
             <textarea id="notes" name="notes" class="form-control" rows="3" [(ngModel)]="userSettings.notes"></textarea>
         </div>
 
+        <div class="form-group">
+            <rating [(ngModel)]="userRating" [max]="maxRating" [readonly]="isReadonly" name="userRating"
+                [titles]="['one','two','three']">
+            </rating>
+            <div>
+                User Rating : {{ userRating }}
+            </div>
+        </div>
+
         <div [hidden]="!postError" class="alert alert-danger">
             {{ postErrorMessage }}
         </div>
@@ -57,4 +75,7 @@
     </form>
 </div>
 
-<h3>{{ originalUserSettings | json }}</h3>
+<div class="container">
+    <h1>Form Data Debug</h1>
+    <h3>{{ originalUserSettings | json }}</h3>
+</div>
